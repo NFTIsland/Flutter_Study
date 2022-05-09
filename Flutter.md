@@ -23,6 +23,15 @@
 	위젯에서 인자에게 값을 전해줄 때는 인자이름 : value 식으로 전달해줌 value에 위젯을 전달해 줄 수도 있음.
 	ex : MaterialApp(theme : ThemeData()) //Material 위젯의 theme 인자에 ThemeData()라는 위젯 전달.
    	만약 위젯의 인자(속성)이 뭐가 있는지 궁금하다면 ctrl + space를 눌러볼 것.
+### NULLSAFETY
+	FLUTTER에 추가된 아주 중요한 것이라는 얘기가 많아 가볍게 정리하고자 함.
+
+	변수를 선언할 때마다 꼭 초기화를 해줘야 함. 
+	그런데 변수를 선언할 때 자료형 뒤에 ?가 붙으면 해당 변수가 NULL값이 들어있을 수도 있다는 것을 알려줌, NULL값으로 초기화가 가능함.
+	반대로 ?가 안붙었으면 값에 NULL을 넣으면 에러가 남
+	만약 변수를 사용할 때 NULL이 절대 아니라는 것을 알려주고 싶다면 변수 이름 뒤에 !를 붙혀서 표시함.
+	이를 통해서 NULL 값을 잘못 접근해서 프로그램이 에러가 나는 상황을 줄일 수 있음.
+
 
 
 ### Flutter Widget Tree : Widget들은 Tree 구조로 정리될 수 있음
@@ -57,20 +66,21 @@
 
 	2. runApp() : flutter의 최상위에 위치한 위젯, 실행시킬 위젯을 인자로 받음. main에서 실행시킴, 이걸 넣지 않으면 app이 실행이 안됨. 
 
-	3. Material App() : import한 flutter/material 라이브러리를 사용할 수 있는 기능을 가진 위젯, material을 import해도 Material App()이 아니면 사용할 수 없음.
+	3. Material App() : import한 flutter/material 라이브러리를 사용할 수 있는 기능을 가진 위젯, material을 import해도 Material App()이 아니면 사용할 수 없음. 실행시키는 main에서 한번만 실행
 	    속성 : 	* title // 앱의 이름을 설정
          		* theme // 테마를 결정, 보통 theme: ThemeData()꼴로 ThemeDate() 위젯을 실행시켜주는 듯 함.
      		    * home // 맨 처음 보여줄 화면을 설정 **home:에 바로 Scaffold 위젯을 전달해서 꾸며도 되지만 
   						  나중에 복잡한 앱을 구성할 때에는 유지보수상 여러개의 파일로 나누어서 실행시키는 것이 유지보수에 유리하기 때문에
 						  home에 바로 scaffold를 실행시키는 것보단 위젯들을 만들어서 실행시키는 것이 좋음
 
-	4. Scaffold() : 앱 화면과 기능을 구성하기 위한 페이지를 준비해주는 위젯, 없으면 아무것도 꾸밀 수 없음, 음식 먹기 전에 책상 닦고 세팅하는 것 같은 느낌
+	4. Scaffold() : 앱 화면과 기능을 구성하기 위한 빈 페이지를 준비해주는 위젯, 없으면 아무것도 꾸밀 수 없음, 음식 먹기 전에 책상 닦고 세팅하는 것 같은 느낌 페이지 수만큼 파일별로 Scaffold 존재
  	    속성 : * appbar: AppBar() // 앱 화면의 상단을 꾸미는 인자에 AppBar()라는 위젯 입력, AppBar에는 title 인자와 centerTitle인자와 elevation이 있는데 
 	  	  	   					     centerTitle은 titled을 appbar의 중앙으로 위치할 것인지 설정하는 인자, elevation은 나머지 영역에 비해 떠있는 느낌을 조절할 수 있는 인자.
 	    	 ★Material app에서 title인자와 Scaffold의 AppBar에서 title 인자의 차이점 : Material app의 title은 앱의 이름이라고 생각하면 되고,
 			   AppBar()의 title은 앱 화면 상단에 출력되는 값
 	           * body // Scaffold 위젯 내에서 본격적으로 앱 화면을 만드는 시작점.
 	           * floatingActionButton // 떠있는 버튼 만드는 것 ex:) floatingActionButton : FloatingActionButton(child : Icon(Icons.add)) -> 더하기 모양의 떠있는 아이콘 생성
+	           * bottomNavigationBar : TabBar(tabs:<Tab>[Tab(), Tab()], controller : 컨트롤러 변수) // 카카오톡처럼 아래에 탭바를 만들어준다. Tab()안에 icon을 추가하면 탭바에 아이콘이 나타난다.
 	5. Icon() :  아이콘 생성
 	6. Center() : 화면의 가로를 기준으로 가운데에 정렬
 	7. Column(), Row() : 세로로 혹은 가로로 여러개의 위젯을 넣고 싶을 때 사용, 위젯을 여러개 넣을 수 있기 때문에 하나의 위젯만 넣더라도 항상 child가 아닌 children 인자를 					  사용하며 배열로 선언해서 []안에 여러개를 입력한다.
@@ -91,17 +101,42 @@
 		속성 : * backgroundImage : AssetImage(경로) // 이미지 추가
     	       * radius // 원 크기 설정
 
-    12.  ElevatedButton() : 네모난 버튼 생성
+	12. ElevatedButton() : 네모난 버튼 생성
 		속성 : * child: const Text()//버튼 이름
 	           * onPressed:(){} // 버튼을 눌렀을 때 실행하는 함수 { } 안에 실행할 코드를 입력, 보통 화면을 변경해야 하기 때문에 setState()가 있음
 
-	13.  TextField() : 텍스트 입력하는 공간 생성 줄로 표시됨
+	13. TextField() : 텍스트 입력하는 공간 생성 줄로 표시됨
 		속성 : * keyboardType // TextInputType.number로 하면 TextField를 눌렀을 때 숫자패드의 키보드가 나옴.
 	    	   * controller // 해당 TextField의 값을 어떤 변수에 넣을지.
 
-	14.  DropdownButton() : 누르면 목록이 나오는 버튼
+	14. DropdownButton() : 누르면 목록이 나오는 버튼
 		속성 : * item // 목록을 입력 -- DropdownMenuItem<String> 형태의 값을 리스트로 받음
 						 ex:) List<DropdownMenuItem<String>> _dropDownMenuItems, _dropDownMenuItems.add(value : ~, child : Text(~))
      	       * onChanged // 아이템이 바뀔 때 처리하는 이벤트
 	           * value : 버튼에 출력할 데이터(이름)
+	15. TabBarView() : 탭별 화면, 컨텐츠를 보여주는 위젯
+		속성 : * controller // TabController 형식의 변수를 통해 탭을 제어함
+			   * children : <Widget>[] // 탭별로 표시할 위젯들을 순서대로 []안에 넣음
+	16. TabBar() : 탭바 메뉴를 보여주는 위젯
+		속성 : * controller // 탭을 제어함
+			   * tabs : <Tab>[] // []안에 Tab() 위젯으로 메뉴들을 넣음 아이콘을 넣을거면 Tab(icon : Icon())
+	17. Tab() : 메뉴 만드는 위젯 child 사용 불가하고 icons이나 Text 사용
+	18. 
 
+## 탭바
+	한 화면에 모두를 표현하기 힘들 때에는 페이스북, 카카오톡처럼 각 화면들을 연결한 탭바를 사용한다.
+	기본적으로 탭바를 컨트롤하기 위한 변수가 필요한데 이는 TabController? 이름; 으로 선언한다.
+	만약 탭이 이동할 때 어떤 동작을 추가하고 싶다면 TabController의 addListener((){}) 함수를 사용하자.
+
+	TabController 변수는 컨트롤할 탭바의 수, 탭이 이동하면 호출되는 함수를 설정해주어야 하는데 생명주기상 initState(){} 함수에서
+	변수 = TabController(length : n, vsync : this);로 설정하면 n개의 탭바를 관리하는 TabController가 된다.
+	또한 탭바는 애니메이션을 활용하기에 생명주기상 dispose(){} 함수에서 변수!.dispose();를 해주어 메모리 누수를 막아야 한다.
+
+	Scaffold에서 bottomNavigatonBar 속성에 TabBar(tabs : <Tab>[])에서 [] 안에 Tab()를 통해서 탭에 표시할 것을 정할 수 있는데,
+	Tab(icon : Icon(Icon.looks_one), color : Colors.blue)를 하면 첫번째 탭에 1이라고 표시된 파란색의 아이콘이 생성된다.
+	그리고 각 탭 별로 컨텐츠를 실행시켜야 할텐데 Scaffold의 body 속성에서 TabBarView() 위젯을 실행시키는데
+	TabBarView(children : <Widget>[위젯들, 위젯들], controller : TabController 변수) 꼴로 설정
+
+	-> TabBar ()는 탭바 메뉴들을 출력해주는 위젯, 메뉴들은 Tab()을 통해서 생성, 탭바 메뉴별로 실행시킬 컨텐츠,화면은 TabBarView로 생성
+	이때 TabBar, TabBarView 모두 controller 속성에 TabController 변수를 넣어서 TabController 변수로 제어하며,
+	TabController 변수는 initState()를 통한 초기화와 dispose()를 통한 종료 필요
