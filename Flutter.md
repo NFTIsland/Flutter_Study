@@ -53,6 +53,10 @@ ex:
 
     List<String>list.empty(growable:true); // String형식의 확장될 수 있는 비어있는 리스트 호출
 
+#### Call back
+Flutter는 코드를 작성하다 보면 특정 이벤트가 발생했을 때 실행하는 함수들이 있다. 이를 콜백 함수라 하고 그렇다 보니 위젯에서 인자로 변수가 아닌 함수를 받는다. 이때 함수는 꼭 이미 만들어진 것을 넘길 필요는 없고 인자와 함수 실행 구문을 넘겨줘도 된다
+ex : `itemBuilder : (인자들){실행할 구문}`
+
 ### NULLSAFETY
 
 FLUTTER에 추가된 아주 중요한 것이라는 얘기가 많아 가볍게 정리하고자 함.
@@ -155,7 +159,7 @@ FLUTTER에 추가된 아주 중요한 것이라는 얘기가 많아 가볍게 �
 4. `Scaffold()` : 앱 화면과 기능을 구성하기 위한 빈 페이지를 준비해주는 위젯, 없으면 아무것도 꾸밀 수 없음, 음식 먹기 전에 책상 닦고 세팅하는 것 같은 느낌 페이지 수만큼 파일 별로 Scaffold 존재
 
 	속성 : 
-	* appbar: AppBar() // 앱 화면의 상단을 꾸미는 인자에 AppBar()라는 위젯 입력, AppBar에는 title 인자와 centerTitle인자와 elevation이 있는데 centerTitle은 titled을 appbar의 중앙으로 위치할 것인지 설정하는 인자, elevation은 나머지 영역에 비해 떠있는 느낌을 조절할 수 있는 인자.
+	* appbar: AppBar() // 앱 화면의 상단을 꾸미는 인자에 AppBar()라는 위젯 입력, AppBar에는 title 인자와 centerTitle인자와 elevation이 있는데 title 인자는 AppBar 제목 설정하는 인자, centerTitle은 titled을 appbar의 중앙으로 위치할 것인지 설정하는 인자, elevation은 나머지 영역에 비해 떠있는 느낌을 조절할 수 있는 인자.
 		★**Material app에서 title인자와 Scaffold의 AppBar에서 title 인자의 차이점**
 **Material app의 title은 앱의 이름**이라고 생각하면 되고,
 **AppBar()의 title은 앱 화면 상단**에 출력되는 값
@@ -180,7 +184,7 @@ ex : `Column(children : <Widget>[~~~~])`
 8. `Padding()` : 화면 간격 조절
 
 	속성 : 
-	* EdgeInsets // Padding 공간의 상하좌우 간격 조절하게 하는 것.
+	* `padding : EdgeInsets` // Padding 공간의 상하좌우 간격 조절하게 하는 것.
 
   
 
@@ -224,6 +228,10 @@ ex : `Column(children : <Widget>[~~~~])`
 	* keyboardType // TextInputType.number로 하면 TextField를 눌렀을 때 숫자패드의 키보드가 나옴.
 
 	* controller // 해당 TextField의 값을 어떤 변수에 넣을지.
+	* InputDecoration // 데코관련 설정 가능
+			* icon //TextField 왼쪽에 아이콘 추가 가능(텍스트도 가능)
+			* border //선관련 옵션
+	* obscureText // 비밀번호 입력할 때 안보이게 하는 것
 
   
 
@@ -231,6 +239,7 @@ ex : `Column(children : <Widget>[~~~~])`
 
 	속성 : 
 	* item // 목록을 입력 -- DropdownMenuItem<String> 형태의 값을 리스트로 받음
+
 ex:) `List<DropdownMenuItem<String>> _dropDownMenuItems, _dropDownMenuItems.add(value : ~, child : Text(~))`
 
 	* onChanged // 아이템이 바뀔 때 처리하는 이벤트
@@ -242,14 +251,14 @@ ex:) `List<DropdownMenuItem<String>> _dropDownMenuItems, _dropDownMenuItems.add(
 	속성 : 
 	* controller // TabController 형식의 변수를 통해 탭을 제어함
 
-	* children : \<Widget>\[] // 탭별로 표시할 위젯들을 순서대로 []안에 넣음
+	* `children : <Widget>[]`  탭별로 표시할 위젯들을 순서대로 []안에 넣음
 
 16. `TabBar()` : 탭바 메뉴를 보여주는 위젯
 
 	속성 :
 	 * controller // 탭을 제어함
 
-	* tabs : \<Tab>\[] // []안에 Tab() 위젯으로 메뉴들을 넣음 아이콘을 넣을거면 Tab(icon : Icon())
+	* `tabs : <Tab>[]`  []안에 Tab() 위젯으로 메뉴들을 넣음 아이콘을 넣을거면 Tab(icon : Icon())
 
 17. `Tab()` : 메뉴 만드는 위젯 child 사용 불가하고 icons이나 Text 사용
 
@@ -260,23 +269,28 @@ ex:) `List<DropdownMenuItem<String>> _dropDownMenuItems, _dropDownMenuItems.add(
 	* width
 	* fit // 비율 설정
 	
-19. ListView.builder() : 리스트 만듦
+19. `ListView.builder()` : 리스트 만듦
 
 	속성 :
-	* itemBuilder : (context, position){} // BuildContext와 int를 받아서 트리 위치와 아이템의 순번 반환받는 콜백 함수 필요.
-20. Card() : 리스트뷰의 아이템을 만드는 함수 여러개의 데이터를 하나의 Node로 만들 때는 child로 Row()나 Column을 추가해서 만듦.
-21. GestureDetector() : 터지, 끌기 같은 손가락 제스쳐의 변화등을 감지하는 위젯
+	* `itemBuilder : (context, position){}`  BuildContext와 int를 받아서 트리 위치와 아이템의 순번 반환받는 콜백 함수 필요.
+20. `Card()` : 리스트뷰의 아이템을 만드는 함수 여러개의 데이터를 하나의 Node로 만들 때는 child로 Row()나 Column을 추가해서 만듦.
+21. `GestureDetector()` : 터치, 끌기 같은 손가락 제스쳐의 변화등을 감지하는 위젯
 	속성
 	* onTap:(){} // 한번 터치했을 때 실행 시 실행시킬 콜백 함수를 입력받음
-22. AlertDialog() :  알림창을 띄울 AlertDialog 변수에 무슨 내용을 담을지 설정하는 함수
+22. `AlertDialog()` :  알림창을 띄울 AlertDialog 변수에 무슨 내용을 담을지 설정하는 함수
 	속성 :
 	 * content // 내용을 입력받음
-23. ShowDialog() : 알림을 띄우는 함수
+23. `ShowDialog()` : 알림을 띄우는 함수
 	속성 :
 	* builder : BuildContext 형식의 변수를 받음, 이 변수에 AlertDialog 내용을 전달함.
 	* context : 출력할 BuildContext 값을 받음
-  
+24. Radio() : 라디오 버튼을 생성함.(같은 그룹 중 하나만 선택 가능)
+	* value : 인덱스
+	* groupValue : 그룹화
+	* onChanged : 선택됐을 때 호출할 함수 받음(콜백)
+25. SingleChildScrollView() : 스크롤 할 수 있게 함  Row()를 썼거나 Column을 썼을 때 즉 List로 만들지 않았을 때 스크롤 할 수 있도록  하는 위젯
 
+26. `FocusScope.of(context).unfocus()` // 키보드가 튀어나왔을 때 빈 곳을 클릭하면 사라지게 함.
 ## 탭바
 
 한 화면에 모두를 표현하기 힘들 때에는 페이스북, 카카오톡처럼 각 화면들을 연결한 탭바를 사용한다.
@@ -338,11 +352,15 @@ Card()함수로 자료구조 중에 List의 Node처럼  ()안에 있는 데이�
 
 ListView.builder함수에는 itemCount 속성이 있어서 스크롤 할 수 있는 크기를 제한할 수 있다. 보통 가져온 리스트의 길이로 설정하게 됨.
 
-만약 리스트에서  목록에 있는 것을 터치했을 때 알림창을 띄우고 싶다면 itemBuilder에  터지, 끌기 같은 손가락 제스쳐의 변화등을 감지하는 GestureDetector()를 return 시키고 Card는 GestureDetector의 child로 넣는다.
-그리고 onTap이라는 인자를 넣는데 onTap은 콜백 함수를 인자로 받는다. 이 콜백 함수에 작동하길 원하는 코드를 작성하면 되는데
+만약 리스트에서  목록에 있는 것을 터치했을 때 알림창을 띄우고 싶다면 itemBuilder에  터치, 끌기 같은 손가락 제스쳐의 변화등을 감지하는 GestureDetector()를 return 시키고 Card는 GestureDetector의 child로 넣는다.
+
+그리고 GestureDetector에 onTap이라는 인자를 넣는데 onTap은 한번 터치됐을 때 실행되며, 콜백 함수를 인자로 받는다. 이 콜백 함수에 작동하길 원하는 코드를 작성하면 되는데
 알람을 띄우고 싶다면 AlertDialog 변수를 생성해서
 AlertDialog인자로 content에 text나 띄우고 싶은걸 넣어둔 뒤 showDialog()함수에 builder 인자에 AlertDialog를 리턴받는  BuildContext 형식의 변수를 넘기고 content에 받은 BuildContext 변수를 넣어준다.
 
+## 정렬 : 
+mainAxisAlignment : 속성으로 MainAxisAlignment.~를 받는데 기준은 해당 축을 기준으로 함. Row내에서 정렬 시 좌우 공간을 기준으로, Column내에서 정렬 시 위 아래 공간을 기준으로
+crossAxisAlignment : 속성으로 CrossAxisAlignment.~를 받는데 기준은 해당 축을 기준으로 함. Row내에서 정렬 시 위 아래 공간을 기준으로, Column내에서 정렬 시 좌우 공간을 기준으로.
 
-
-
+.center는 중앙
+.spaceAround는 여백을 기준으로 균일하게
